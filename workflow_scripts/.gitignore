@@ -1,0 +1,8 @@
+#  Ignore code stuffs
+workflow_scripts.code-workspace
+
+#  Ignore backup
+bak/
+
+#  Ignore _tests
+_tests/

@@ -1,0 +1,11 @@
+#  Ignore code stuffs
+http_auth_framework.code-workspace
+
+#  Ignore python stuffs
+__pycache__/
+
+#  Ignore docs
+docs/
+
+#  Ignore db files
+*.db
