@@ -14,11 +14,9 @@ The file install.sh can be used to install or uninstall the workflow scripts.  I
 
 ### Installation
 
-Navigate to where you want to keep the scripts and run:
+Save the scripts in any location then run:
 
 ```
-git clone https://github.com/wtfsystems/workflow_scripts.git
-cd workflow_scripts
 sudo sh install.sh
 ```
 
