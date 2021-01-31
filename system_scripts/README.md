@@ -1,12 +1,14 @@
 # Workflow Scripts
 
-Workflow shell scripts to simplify some tasks.
+Workflow shell scripts to simplify some tasks.  See each script for more details.
 
 | Filename | Description |
 | -------- | ----------- |
 | install.sh | Install script - see below |
-| makebak.sh | Make a local backup of the current folder |
+| localbak.sh | Make a local backup of the current folder |
 | makedoc.sh | Build project documentation |
+| motd.sh | MOTD script |
+| sysbak | Run a system backup |
 
 ## Install Script
 
