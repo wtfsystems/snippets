@@ -13,6 +13,7 @@ Workflow shell scripts to simplify some tasks.  See each script for more details
 ## Install Script
 
 The file install.sh can be used to install or uninstall the workflow scripts.  It just keeps them in their current directory and creates symbolic links to the chosen install location.  Defaults to */usr/local/bin*
+It will also install the MOTD script to */etc/profile.d*
 
 ### Installation
 
