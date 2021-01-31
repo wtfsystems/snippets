@@ -1,0 +1,8 @@
+#  Ignore code stuffs
+system_scripts.code-workspace
+
+#  Ignore backup
+bak/
+
+#  Ignore _tests
+_tests/
