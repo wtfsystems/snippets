@@ -7,9 +7,13 @@
 #  Script to create a local backup of the
 #  current directory.
 #
+#  Passing an argument will use that as the backup name
+#  Note that BACKUP_EXTENSION is appended to this name
+#
 #  Will ignore files or folders listed in a
 #  local .bakignore file
 #  Note that only top level items will be ignored
+#  Also ignores items with BACKUP_EXTENSION at the end
 ##################################################
 
 ##################################################
@@ -21,7 +25,6 @@ BACKUP_FOLDER="_bak"
 BACKUP_EXTENSION="_bak"
 #  Special file to tell the script what to ignore
 IGNORE_FILE=".bakignore"
-##################################################
 
 ##################################################
 #  Function to check if a file or folder is listed
