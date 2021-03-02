@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 ##################################################
 #  Filename:  sysbak.sh
 #  By:  Matthew Evans
@@ -33,6 +33,7 @@ LOGGING_LEVEL="INFO"
 #  BACKUP_NAME="backup" - rclone backup name to use
 #  BACKUP_LIST=("test1" "test2") - list of folders to copy
 #  RCLONE_PASSWORD_COMMAND="pass rclone/config" - passwordstore command
+##################################################
 source "$BACKUP_CONFIG_LOCATION/$BACKUP_CONFIG_FILE"
 
 #  If the proper variables were not configured, fail
@@ -57,7 +58,6 @@ for ARGS in "$@"; do
         done
     fi
 done
-##################################################
 
 ##################################################
 #  Start main script

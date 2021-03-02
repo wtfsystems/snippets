@@ -22,7 +22,6 @@ SCRIPT_FILE_NAMES=("localbak.sh" "makedoc.sh" "sysbak.sh")
 MOTD_INSTALL_LOCATION="/etc/profile.d"
 #  MOTD script filename
 MOTD_FILE_NAME="motd.sh"
-##################################################
 
 ##################################################
 #  Function to create a confirmation prompt
@@ -41,7 +40,6 @@ confirm_prompt()
     false
     return
 }
-##################################################
 
 ##################################################
 #  Parse arguments
@@ -58,7 +56,6 @@ for ARGS in "$@"; do
         ASK_EACH_FILE="true"
     fi
 done
-##################################################
 
 ##################################################
 #  Start main script

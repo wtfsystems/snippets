@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 ##################################################
 #  Filename:  localbak.sh
 #  By:  Matthew Evans
@@ -15,8 +15,10 @@
 ##################################################
 #  Script variables
 ##################################################
-#  Folder to back up into
-BACKUP_FOLDER="bak"
+#  Default folder to back up into
+BACKUP_FOLDER="_bak"
+#  Extension for backup folders
+BACKUP_EXTENSION="_bak"
 #  Special file to tell the script what to ignore
 IGNORE_FILE=".bakignore"
 ##################################################
@@ -46,7 +48,14 @@ skip_check()
     false
     return
 }
+
 ##################################################
+#  Parse arguments
+##################################################
+#  If a single argument was passed, append to foler name
+if [[ ! -z "$1" ]]; then
+    BACKUP_FOLDER="$1$BACKUP_FOLDER"
+fi
 
 ##################################################
 #  Start main script
@@ -68,8 +77,8 @@ mkdir "$BACKUP_FOLDER"
 
 shopt -s dotglob
 for BACKUP_ITEM in "$CURRENT_PATH"/*; do
-    #  Skip the item if it's either the backup folder itself or in the IGNORE_FILE
-    if skip_check "${BACKUP_ITEM#$CURRENT_PATH/}" || [ "$BACKUP_ITEM" = "$CURRENT_PATH/$BACKUP_FOLDER" ]; then
+    #  Skip the item if it's either in the IGNORE_FILE or ends with BACKUP_FOLDER
+    if skip_check "${BACKUP_ITEM#$CURRENT_PATH/}" || [[ "$BACKUP_ITEM" =~ "$BACKUP_EXTENSION"$ ]]; then
         continue
     fi
     cp -r "${BACKUP_ITEM#$CURRENT_PATH/}" "$BACKUP_FOLDER/${BACKUP_ITEM#$CURRENT_PATH/}"
