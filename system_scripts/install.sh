@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 ##################################################
 #  Filename:  install.sh
 #  By:  Matthew Evans

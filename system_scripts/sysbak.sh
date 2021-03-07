@@ -34,14 +34,22 @@ LOGGING_LEVEL="INFO"
 #  BACKUP_LIST=("test1" "test2") - list of folders to copy
 #  RCLONE_PASSWORD_COMMAND="pass rclone/config" - passwordstore command
 ##################################################
-source "$BACKUP_CONFIG_LOCATION/$BACKUP_CONFIG_FILE"
+#  Make sure config file exists
+if [ -e "$BACKUP_CONFIG_LOCATION/$BACKUP_CONFIG_FILE" ]; then
+    source "$BACKUP_CONFIG_LOCATION/$BACKUP_CONFIG_FILE"
+else
+    echo "Config file not found!  See script for details."
+    echo "Please create a $BACKUP_CONFIG_FILE file in $BACKUP_CONFIG_LOCATION"
+    echo "Nothing has been backed up.  Exiting..."
+    echo ""
+    exit 1
+fi
 
 #  If the proper variables were not configured, fail
-CONFIG_FAILED="false"
 if [ -z ${BACKUP_NAME+x} ] && [ -z ${BACKUP_LIST+x} ] && [ -z ${RCLONE_PASSWORD_COMMAND+x} ]; then
     echo "You must configure a backup to run!  See script for details."
     echo "Nothing has been backed up.  Exiting..."
-    echo
+    echo ""
     exit 1
 fi
 
