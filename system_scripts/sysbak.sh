@@ -14,14 +14,16 @@
 ##################################################
 #  Script variables
 ##################################################
-#  Location to store backup config file (see below)
+#  Location to store backup config file (see below for format)
 BACKUP_CONFIG_LOCATION="$HOME/.config/sysbak"
 #  Name of backup config file
 BACKUP_CONFIG_FILE="sysbak.config"
-#  Root location to run backup from (should be home)
+#  Root location to run backup from (should probably be home)
 BACKUP_ROOT_LOCATION="$HOME"
-#  Log for packages
+#  Log filename for packages
 PACKAGE_LOG_FILE="installed_packages.list"
+#  Location to save installed package list
+PACKAGE_LOG_LOCATION="$HOME/.config/sysbak"
 #  Logging level (see rclone docs)
 LOGGING_LEVEL="INFO"
 
@@ -73,15 +75,15 @@ done
 echo
 echo "*** RUNNING SYSTEM BACKUP ***"
 
-#
+#  Optional:  back up installed package list
 if [ "$DO_BACKUP_PACKAGE_LIST" = true ]; then
     echo
     echo "Creating installed package list..."
-    if [ -e "$BACKUP_CONFIG_LOCATION/$PACKAGE_LOG_FILE" ]; then
+    if [ -e "$PACKAGE_LOG_LOCATION/$PACKAGE_LOG_FILE" ]; then
         echo "Deleting old list..."
-        rm "$BACKUP_CONFIG_LOCATION/$PACKAGE_LOG_FILE"
+        rm "$PACKAGE_LOG_LOCATION/$PACKAGE_LOG_FILE"
     fi
-    pacman -Q | awk '{print $1}' > "$BACKUP_CONFIG_LOCATION/$PACKAGE_LOG_FILE"
+    pacman -Q | awk '{print $1}' > "$PACKAGE_LOG_LOCATION/$PACKAGE_LOG_FILE"
     echo "Installed package list created."
 fi
 
@@ -91,6 +93,11 @@ echo "Backing up user data..."
 for ITEM in "${BACKUP_LIST[@]}"; do
     #  Saftey check for folder
     if [ -d "$BACKUP_ROOT_LOCATION/$ITEM" ]; then
+        #  Check if old log exists and remove
+        if [ -e "$BACKUP_CONFIG_LOCATION/$ITEM.log" ]; then
+            rm "$BACKUP_CONFIG_LOCATION/$ITEM.log"
+        fi
+        #  Start rclone process
         rclone --log-file="$BACKUP_CONFIG_LOCATION/$ITEM.log" --log-level "$LOGGING_LEVEL" --skip-links --ask-password=false --password-command "$RCLONE_PASSWORD_COMMAND" sync "$BACKUP_ROOT_LOCATION/$ITEM" "$BACKUP_NAME:$ITEM" &
     fi
 done
