@@ -43,7 +43,7 @@ else
     echo "Config file not found!  See script for details."
     echo "Please create a $BACKUP_CONFIG_FILE file in $BACKUP_CONFIG_LOCATION"
     echo "Nothing has been backed up.  Exiting..."
-    echo ""
+    echo
     exit 1
 fi
 
@@ -51,7 +51,7 @@ fi
 if [ -z ${BACKUP_NAME+x} ] && [ -z ${BACKUP_LIST+x} ] && [ -z ${RCLONE_PASSWORD_COMMAND+x} ]; then
     echo "You must configure a backup to run!  See script for details."
     echo "Nothing has been backed up.  Exiting..."
-    echo ""
+    echo
     exit 1
 fi
 
