@@ -87,7 +87,7 @@ if [ "$DO_BACKUP_PACKAGE_LIST" = true ]; then
     echo "Installed package list created."
 fi
 
-#
+#  Run the rclone backups
 echo
 echo "Backing up user data..."
 for ITEM in "${BACKUP_LIST[@]}"; do
