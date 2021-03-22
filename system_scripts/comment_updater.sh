@@ -23,7 +23,7 @@
 #  COMMENT_TEXT - Comment text to use as an array.  Each element is a line.
 #
 #  Special variables for COMMENT_TEXT:
-#  $CURRENT_FILENAME - Filename of current source file. (fixing)
+#  $CURRENT_FILENAME - Filename of current source file.
 #  SYEAR - Current year.
 #
 ##################################################
