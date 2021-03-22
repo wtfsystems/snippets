@@ -6,13 +6,14 @@
 ##################################################
 #
 #  Script to update top comment in source code files.
-#  Checks current working directory for a BACKUP_CONFIG_FILE.
+#  Checks current working directory for a CONFIG_FILE.
 #
 #  WARNING:  Back up your code before running this!
 #
 ##################################################
 #
-#  Configuration file format:
+#  Configuration file format.
+#  See bottom of script for an example.
 #
 #  PROJECT_LOCATION - Location of soruce files.
 #  SOURCE_EXTENSION - Source file extension.
@@ -31,7 +32,7 @@
 #  Script variables
 ##################################################
 #  Configuration filename
-BACKUP_CONFIG_FILE="comment_updater.config"
+CONFIG_FILE="comment_updater.config"
 #  Store current year YYYY format
 YEAR="$(date +%Y)"
 
@@ -47,6 +48,7 @@ process_update()
         if [ -f "$i" ] && [[ "$i" =~ "$SOURCE_EXTENSION" ]]; then
             echo -n "Updating $i... "
             CURRENT_FILENAME="$(basename $i)" # Store short filename for comments
+            source "$PWD/$CONFIG_FILE" # Lazy hack to get CURRENT_FILENAME to evaluate properly
 
             #  First find the top comment block and remove it
             FIRST_LINE=$(grep -Fn -m 1 -h "$COMMENT_START" "$i")
@@ -63,7 +65,6 @@ process_update()
             printf "%s\n" "$COMMENT_START" | cat - "$i" > temp && mv temp "$i"
 
             echo "Done"
-            #echo "$CURRENT_FILENAME"
         fi
         #  If a directory, enter and process
         if [ -d "$i" ]; then
@@ -79,15 +80,15 @@ echo
 echo "*** RUNNING COMMENT UPDATER ***"
 echo
 
-#  Make sure the BACKUP_CONFIG_FILE is in the working directory
-if [ ! -e "$PWD/$BACKUP_CONFIG_FILE" ]; then
-    echo "Cannot find $BACKUP_CONFIG_FILE, exiting..."
+#  Make sure the CONFIG_FILE is in the working directory
+if [ ! -e "$PWD/$CONFIG_FILE" ]; then
+    echo "Cannot find $CONFIG_FILE, exiting..."
     echo
     exit 1
 fi
 
 #  Load config file from current folder
-source "$PWD/$BACKUP_CONFIG_FILE"
+source "$PWD/$CONFIG_FILE"
 
 #  Verify proper variables loaded from config
 if [ -z ${PROJECT_LOCATION+x} ] && \
@@ -109,3 +110,22 @@ process_update "$PROJECT_LOCATION"
 echo
 echo "Comment Updater script done!"
 echo
+
+##################################################
+#  Example comment_updater.config
+##################################################
+#PROJECT_LOCATION="$HOME/Projects/coolproject/include/coolproject"
+#SOURCE_EXTENSION=".hpp"
+
+#COMMENT_START="/*!"
+#COMMENT_END=" */"
+#LINE_DELIMITER=" * "
+
+#COMMENT_TEXT=(
+#    "Some Cool Project | File:  $CURRENT_FILENAME"
+#    ""
+#    "\author YOUR NAME"
+#    "\version 0.2a"
+#    "\copyright See LICENSE.md for copyright information."
+#    "\date 2019-$YEAR"
+#)
