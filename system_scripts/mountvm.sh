@@ -126,7 +126,7 @@ else
         echo
         exit 1
     fi
-    #  Make sure the VM file is in the list and get its mount point
+    #  Check for the VM name in the list and get its mount point
     for (( i=0; i < "${#VM_MOUNT_LIST[@]}"; i=i+2 )); do
         if [ "${VM_MOUNT_LIST[$i]}" = "$VM_NAME" ]; then
             VM_MOUNT_POINT="${VM_MOUNT_LIST[$i+1]}"
