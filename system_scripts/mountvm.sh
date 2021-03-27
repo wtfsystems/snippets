@@ -99,6 +99,12 @@ fi
 #  Display the VM list
 if [ "$MOUNT_VM_DISPLAY_LIST" = true ]; then
     echo "Configured VM mounts:"
+    echo
+    echo "[ Name ] : [ Mount Point ]"
+    for (( i=0; i < "${#VM_MOUNT_LIST[@]}"; i=i+2 )); do
+        echo "${VM_MOUNT_LIST[$i]} : ${VM_MOUNT_LIST[$i+1]}"
+    done
+    echo
 #  Otherwise process mount/unmount
 else
     ##############################
