@@ -96,7 +96,9 @@ if [ $(( "${#VM_MOUNT_LIST[@]}" % 2 )) != 0 ]; then
     exit 1
 fi
 
+###################################
 #  Display the VM list
+###################################
 if [ "$MOUNTVM_DISPLAY_LIST" = true ]; then
     echo "Configured VM mounts:"
     echo
@@ -105,7 +107,9 @@ if [ "$MOUNTVM_DISPLAY_LIST" = true ]; then
         echo "${VM_MOUNT_LIST[$i]} : ${VM_MOUNT_LIST[$i+1]}"
     done
     echo
+###################################
 #  Otherwise process mount/unmount
+###################################
 else
     ##############################
     #  Some final checks...
