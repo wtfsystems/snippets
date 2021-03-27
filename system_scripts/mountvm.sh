@@ -22,6 +22,8 @@
 MOUNTVM_CONFIG_LOCATION="$HOME/.config/system_scripts/mountvm"
 #  MOTD script filename
 MOUNTVM_CONFIG_FILE="mountvm.config"
+#  VM file extension
+VM_EXT=".qcow2"
 
 ##################################################
 #  Parse arguments
@@ -109,8 +111,8 @@ else
         exit 1
     fi
     #  Make sure the VM file exists
-    if [ ! -e "$VM_IMAGE_LOCATION/$VM_NAME.qcow2" ]; then
-        echo "Cannot find VM '$VM_IMAGE_LOCATION/$VM_NAME.qcow2'!  Exiting..."
+    if [ ! -e "$VM_IMAGE_LOCATION/$VM_NAME$VM_EXT" ]; then
+        echo "Cannot find VM '$VM_IMAGE_LOCATION/$VM_NAME$VM_EXT'!  Exiting..."
         echo
         exit 1
     fi
@@ -143,18 +145,18 @@ else
     ##############################
     #  Run unmount
     if [ "$MOUNTVM_DO_UNMOUNT" = true ]; then
-        echo -n "Unmounting $VM_IMAGE_LOCATION/$VM_NAME.qcow2 from $VM_MOUNT_LOCATION/$VM_NAME... "
+        echo -n "Unmounting $VM_IMAGE_LOCATION/$VM_NAME$VM_EXT from $VM_MOUNT_LOCATION/$VM_NAME... "
         guestunmount "$VM_MOUNT_LOCATION/$VM_NAME"
     #  Run mount
     else
         #  Mount read only
         if [ "$MOUNT_VM_READ_ONLY" = true ]; then
-            echo -n "Mounting $VM_IMAGE_LOCATION/$VM_NAME.qcow2 to $VM_MOUNT_LOCATION/$VM_NAME as read only... "
-            guestmount -a "$VM_IMAGE_LOCATION/$VM_NAME.qcow2" -m "$VM_MOUNT_POINT" --ro "$VM_MOUNT_LOCATION/$VM_NAME"
+            echo -n "Mounting $VM_IMAGE_LOCATION/$VM_NAME$VM_EXT to $VM_MOUNT_LOCATION/$VM_NAME as read only... "
+            guestmount -a "$VM_IMAGE_LOCATION/$VM_NAME$VM_EXT" -m "$VM_MOUNT_POINT" --ro "$VM_MOUNT_LOCATION/$VM_NAME"
         #  Mount read/write
         else
-            echo -n "Mounting $VM_IMAGE_LOCATION/$VM_NAME.qcow2 to $VM_MOUNT_LOCATION/$VM_NAME... "
-            guestmount -a "$VM_IMAGE_LOCATION/$VM_NAME.qcow2" -m "$VM_MOUNT_POINT" "$VM_MOUNT_LOCATION/$VM_NAME"
+            echo -n "Mounting $VM_IMAGE_LOCATION/$VM_NAME$VM_EXT to $VM_MOUNT_LOCATION/$VM_NAME... "
+            guestmount -a "$VM_IMAGE_LOCATION/$VM_NAME$VM_EXT" -m "$VM_MOUNT_POINT" "$VM_MOUNT_LOCATION/$VM_NAME"
         fi
     fi
 fi
