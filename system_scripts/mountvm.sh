@@ -29,15 +29,15 @@ VM_EXT=".qcow2"
 #  Parse arguments
 ##################################################
 MOUNTVM_DO_UNMOUNT="false"
-MOUNT_VM_DISPLAY_LIST="false"
-MOUNT_VM_READ_ONLY="false"
+MOUNTVM_DISPLAY_LIST="false"
+MOUNTVM_READ_ONLY="false"
 for ARGS in "$@"; do
     #  Check if list flag passed
     if [ "$ARGS" = "--list" ]; then
-        MOUNT_VM_DISPLAY_LIST="true"
+        MOUNTVM_DISPLAY_LIST="true"
     #  Check if read only flag passed
     elif [ "$ARGS" = "--ro" ]; then
-        MOUNT_VM_READ_ONLY="true"
+        MOUNTVM_READ_ONLY="true"
     #  Parse any single flag - arguments
     elif [[ "$ARGS" =~ ^-.* ]]; then  #  Check for - flag
         for i in $(seq 1 ${#ARGS}); do
@@ -97,7 +97,7 @@ if [ $(( "${#VM_MOUNT_LIST[@]}" % 2 )) != 0 ]; then
 fi
 
 #  Display the VM list
-if [ "$MOUNT_VM_DISPLAY_LIST" = true ]; then
+if [ "$MOUNTVM_DISPLAY_LIST" = true ]; then
     echo "Configured VM mounts:"
     echo
     echo "[ Name ] : [ Mount Point ]"
@@ -156,7 +156,7 @@ else
     #  Run mount
     else
         #  Mount read only
-        if [ "$MOUNT_VM_READ_ONLY" = true ]; then
+        if [ "$MOUNTVM_READ_ONLY" = true ]; then
             echo -n "Mounting $VM_IMAGE_LOCATION/$VM_NAME$VM_EXT to $VM_MOUNT_LOCATION/$VM_NAME as read only... "
             guestmount -a "$VM_IMAGE_LOCATION/$VM_NAME$VM_EXT" -m "$VM_MOUNT_POINT" --ro "$VM_MOUNT_LOCATION/$VM_NAME"
         #  Mount read/write
