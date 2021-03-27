@@ -2,6 +2,7 @@
 ##################################################
 #  Filename:  sysbak.sh
 #  By:  Matthew Evans
+#  Ver:  032721
 #  See LICENSE.md for copyright information.
 ##################################################
 #  System backup script
@@ -15,7 +16,7 @@
 #  Script variables
 ##################################################
 #  Location to store backup config file (see below for format)
-BACKUP_CONFIG_LOCATION="$HOME/.config/sysbak"
+BACKUP_CONFIG_LOCATION="$HOME/.config/system_scripts/sysbak"
 #  Name of backup config file
 BACKUP_CONFIG_FILE="sysbak.config"
 #  Root location to run backup from (should probably be home)
@@ -87,9 +88,20 @@ if [ "$DO_BACKUP_PACKAGE_LIST" = true ]; then
     echo "Installed package list created."
 fi
 
-#  Run the rclone backups
 echo
 echo "Backing up user data..."
+#  If log folder doesn't exist, create it.
+if [ ! -e "$BACKUP_CONFIG_LOCATION/logs/" ]; then
+    mkdir "$BACKUP_CONFIG_LOCATION"/logs
+fi
+#  If log folder still can't be found, throw error and exit.
+if [ ! -e "$BACKUP_CONFIG_LOCATION/logs/" ]; then
+    echo "Error!  Can't find log folder '$BACKUP_CONFIG_LOCATION/logs/'!"
+    echo "Exiting..."
+    echo
+    exit 1
+fi
+#  Run the rclone backups
 for ITEM in "${BACKUP_LIST[@]}"; do
     #  Saftey check for folder
     if [ -d "$BACKUP_ROOT_LOCATION/$ITEM" ]; then
@@ -97,8 +109,8 @@ for ITEM in "${BACKUP_LIST[@]}"; do
         if [ -e "$BACKUP_CONFIG_LOCATION/$ITEM.log" ]; then
             rm "$BACKUP_CONFIG_LOCATION/$ITEM.log"
         fi
-        #  Start rclone process
-        rclone --log-file="$BACKUP_CONFIG_LOCATION/$ITEM.log" --log-level "$LOGGING_LEVEL" --skip-links --ask-password=false --password-command "$RCLONE_PASSWORD_COMMAND" sync "$BACKUP_ROOT_LOCATION/$ITEM" "$BACKUP_NAME:$ITEM" &
+        #  Start rclone process &
+        rclone --log-file="$BACKUP_CONFIG_LOCATION/logs/$ITEM.log" --log-level "$LOGGING_LEVEL" --skip-links --ask-password=false --password-command "$RCLONE_PASSWORD_COMMAND" sync "$BACKUP_ROOT_LOCATION/$ITEM" "$BACKUP_NAME:$ITEM" &
     fi
 done
 echo "User data backup started.  Results will be written in the logs."

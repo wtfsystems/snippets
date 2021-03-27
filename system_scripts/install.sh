@@ -2,6 +2,7 @@
 ##################################################
 #  Filename:  install.sh
 #  By:  Matthew Evans
+#  Ver:  032721
 #  See LICENSE.md for copyright information.
 ##################################################
 #  Script to manage other workflow scripts
@@ -17,7 +18,7 @@
 #  Default folder to install to
 DEFAULT_INSTALL_LOCATION="/usr/local/bin"
 #  Filenames to make symlinks to
-SCRIPT_FILE_NAMES=("comment_updater.sh" "localbak.sh" "makedoc.sh" "sysbak.sh")
+SCRIPT_FILE_NAMES=("comment_updater.sh" "localbak.sh" "makedoc.sh" "sysbak.sh" "mountvm.sh")
 #  Default folder to install MOTD
 MOTD_INSTALL_LOCATION="/etc/profile.d"
 #  MOTD script filename
@@ -78,7 +79,6 @@ CURRENT_DIR="$( cd "$( dirname "$0" )" && pwd )"
 ##########################
 if [ "$RUN_UNINSTALL" = true ]; then
     echo "Removing scripts from '$INSTALL_LOCATION'..."
-
     #  Iterate over script filenames, deleting symlinks
     for FILENAME in "${SCRIPT_FILE_NAMES[@]}"; do
         if [ "$ASK_EACH_FILE" = false ] || (confirm_prompt "Do you want to remove '${FILENAME%.*}' from '$INSTALL_LOCATION'"); then
@@ -86,6 +86,7 @@ if [ "$RUN_UNINSTALL" = true ]; then
         fi
     done
 
+    echo "Removing MOTD stript from '$MOTD_INSTALL_LOCATION'..."
     #  Now uninstall the MOTD script
     if [ "$ASK_EACH_FILE" = false ] || (confirm_prompt "Do you want to remove '${MOTD_FILE_NAME%.*}' from '$MOTD_INSTALL_LOCATION'"); then
         rm $MOTD_INSTALL_LOCATION/${MOTD_FILE_NAME}
@@ -95,7 +96,6 @@ if [ "$RUN_UNINSTALL" = true ]; then
 ##########################
 else
     echo "Installing scripts to '$INSTALL_LOCATION'..."
-
     #  Iterate over script filenames, creating symlinks for each
     for FILENAME in "${SCRIPT_FILE_NAMES[@]}"; do
         if [ "$ASK_EACH_FILE" = false ] || (confirm_prompt "Do you want to install '${FILENAME%.*}' to '$INSTALL_LOCATION'"); then
@@ -104,6 +104,7 @@ else
         fi
     done
 
+    echo "Installing MOTD stript to '$MOTD_INSTALL_LOCATION'..."
     #  Now install the MOTD script
     if [ "$ASK_EACH_FILE" = false ] || (confirm_prompt "Do you want to install '${MOTD_FILE_NAME%.*}' to '$MOTD_INSTALL_LOCATION'"); then
         ln -s $CURRENT_DIR/$MOTD_FILE_NAME $MOTD_INSTALL_LOCATION/${MOTD_FILE_NAME}

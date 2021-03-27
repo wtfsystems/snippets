@@ -2,6 +2,7 @@
 ##################################################
 #  Filename:  makedoc.sh
 #  By:  Matthew Evans
+#  Ver:  032721
 #  See LICENSE.md for copyright information.
 ##################################################
 #  Script to build project documentation and
@@ -14,7 +15,7 @@
 #  Project folder location
 PROJECTS_LOCATION="$HOME/Projects"
 #  Config folder location
-CONFIG_LOCATION="$HOME/.config/makedoc"
+CONFIG_LOCATION="$HOME/.config/system_scripts/makedoc"
 #  File containing the list of projects
 PROJECTS_LIST_FILE="projects.list"
 #  Log filename

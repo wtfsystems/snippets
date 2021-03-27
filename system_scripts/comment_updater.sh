@@ -2,6 +2,7 @@
 ##################################################
 #  Filename:  comment_updater.sh
 #  By:  Matthew Evans
+#  Ver:  032721
 #  See LICENSE.md for copyright information.
 ##################################################
 #
@@ -32,7 +33,7 @@
 #  Script variables
 ##################################################
 #  Configuration filename
-CONFIG_FILE="comment_updater.config"
+CONFIG_FILE=".comment_updater.config"
 #  Store current year YYYY format
 YEAR="$(date +%Y)"
 

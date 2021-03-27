@@ -2,6 +2,7 @@
 ##################################################
 #  Filename:  motd.sh
 #  By:  Matthew Evans
+#  Ver:  032721
 #  See LICENSE.md for copyright information.
 ##################################################
 #  MOTD Script
@@ -13,7 +14,7 @@
 #  Location of the quotes file
 #  Format:
 #  QUOTES=("quote1" "quote2")
-QUOTES_FILE="$HOME/.config/quotes"
+QUOTES_FILE="$HOME/.config/system_scripts/quotes"
 #  Define some colors
 FG_GREEN="\033[0;32m"
 FG_RED="\033[0;31m"
@@ -28,8 +29,8 @@ RESET="\033[0m"
 neofetch
 
 #  Display last time backup was ran
-if [ -e "$HOME"/.config/sysbak/lastrun ]; then
-    LASTRUN=$( cat "$HOME"/.config/sysbak/lastrun )
+if [ -e "$HOME"/.config/system_scripts/sysbak/lastrun ]; then
+    LASTRUN=$( cat "$HOME"/.config/system_scripts/sysbak/lastrun )
     CURRENT_TIME=$( date +"%s" )
     BACKUP_TIME=$( date --date="$LASTRUN" +"%s" )
     ELAPSED_TIME=$( expr "$CURRENT_TIME" - "$BACKUP_TIME" )
@@ -46,14 +47,21 @@ if [ -e "$HOME"/.config/sysbak/lastrun ]; then
 
     echo -e "${DISPLAY_COLOR}${BG_BLACK}System backup last ran on:  $LASTRUN${RESET}"
 else
-    echo "${FG_RED}${BG_BLACK}Warning! Could not determine when the last backup was executed!${RESET}"
+    echo -e "${FG_RED}${BG_BLACK}Warning! Could not determine when the last backup was executed!${RESET}"
 fi
 
-echo ""
+echo
 
+#  Print a random quote
 if [ -e "$QUOTES_FILE" ]; then
     source "$QUOTES_FILE"
     if [ ! -z "${QUOTES+x}" ]; then
         echo "${QUOTES[$(($RANDOM % ${#QUOTES[@]}))]}"
+        echo
     fi
 fi
+
+##################################################
+#  Set environment variables
+##################################################
+export PKG_CONFIG_PATH=/usr/local/share/pkgconfig
