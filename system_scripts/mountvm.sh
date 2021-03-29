@@ -2,7 +2,7 @@
 ##################################################
 #  Filename:  mountvm.sh
 #  By:  Matthew Evans
-#  Ver:  032721
+#  Ver:  032821
 #  See LICENSE.md for copyright information.
 ##################################################
 #
@@ -13,6 +13,16 @@
 #
 ##################################################
 #
+# The MOUNTVM_CONFIG_FILE:
+#
+# VM_IMAGE_LOCATION - Folder location where VM images are stored
+# VM_MOUNT_LOCATION - Location to create VM mounts
+# VM_MOUNT_LIST
+#   - An array with the following format:
+#   - [ Filename w/o extension ] [ VM mount point ]
+#
+# See bottom for an example.
+#
 ##################################################
 
 ##################################################
@@ -20,7 +30,7 @@
 ##################################################
 #  Config file location
 MOUNTVM_CONFIG_LOCATION="$HOME/.config/system_scripts/mountvm"
-#  MOTD script filename
+#  Config filename
 MOUNTVM_CONFIG_FILE="mountvm.config"
 #  VM file extension
 VM_EXT=".qcow2"
@@ -174,13 +184,13 @@ echo "Done!"
 echo
 
 ##################################################
-#  Example mountvm.config:
+#  Example MOUNTVM_CONFIG_FILE:
 ##################################################
 #
-#VM_IMAGE_LOCATION="$HOME/.local/share/libvirt/images"
-#VM_MOUNT_LOCATION="$HOME/vmmount"
+# VM_IMAGE_LOCATION="$HOME/.local/share/libvirt/images"
+# VM_MOUNT_LOCATION="$HOME/vmmount"
 #
-#VM_MOUNT_LIST=(
-#    "myvm_one" "/dev/sda2"
-#    "myvm_two" "/dev/sda1"
-#)
+# VM_MOUNT_LIST=(
+#     "myvm_one" "/dev/sda2"
+#     "myvm_two" "/dev/sda1"
+# )
