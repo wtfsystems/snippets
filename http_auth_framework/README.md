@@ -126,7 +126,7 @@ PATH_TO_USER_DB = 'user.db'
 -----
 
 #### User Database Admin
-The script [user_admin.py](https://github.com/wtfsystems/http_auth_framework/blob/master/user_admin.py) creates a useable database file for the framework.  Also has commands to add, delete and list users.
+The script [user_admin.py](https://github.com/wtfsystems/snippets/blob/master/http_auth_framework/user_admin.py) creates a useable database file for the framework.  Also has commands to add, delete and list users.
 
 __Commands:__
 - --new_db - Generates a new database file if one does not already exist.
