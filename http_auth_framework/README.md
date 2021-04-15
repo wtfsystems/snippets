@@ -2,7 +2,7 @@
 
 Python web authentication using Flask and SQLite.  Provides a login framework to base small web gui projects around.
 
-Authenticates a user against a SQLite database file.  Passwords are hashed and stored using DES encryption.
+Authenticates a user against a SQLite database file.  Passwords are hashed and stored using DES encryption and a salt.
 
 -----
 
@@ -65,7 +65,7 @@ The __http_auth__ class also has members for validating and changing a user's pa
 
 #### Example
 
-The file [run_example.py](https://github.com/wtfsystems/http_auth_framework/blob/master/run_example.py) provides a working Flask application as an example.
+The file [run_example.py](https://github.com/wtfsystems/snippets/blob/master/http_auth_framework/run_example.py) provides a working Flask application as an example.
 
 -----
 
