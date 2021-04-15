@@ -5,6 +5,7 @@
 ##########################################################
 #
 #  Filename:  user_admin.py
+#  Version:  041521
 #  By:  Matthew Evans
 #       https://www.wtfsystems.net/
 #
@@ -16,7 +17,7 @@
 #
 ##########################################################
 
-import argparse, sqlite3, pyDes
+import random, string, argparse, sqlite3, pyDes
 from http_auth_framework import http_auth as config
 
 config.DES_KEY = b'\0\0\0\0\0\0\0\0'
@@ -26,16 +27,21 @@ config.PATH_TO_USER_DB = 'user.db'
 #  Function to add a new user
 ##########################################################
 def new_user(USERNAME, PASSWORD):
+    #  Generate the salt
+    letter_string = ''.join(random.choice(string.ascii_letters) for x in range(128))
+    number_string = ''.join(random.choice(string.digits) for x in range(128))
+    SALT = ''.join(map(''.join, zip(letter_string, number_string)))
+
     k = pyDes.des(b"DESCRYPT",
               pyDes.CBC,
               config.DES_KEY,
               pad=config.DES_PAD,
               padmode=config.DES_PADMODE)
-    PASSWORD = k.encrypt(PASSWORD)
+    PASSWORD = k.encrypt(PASSWORD + SALT)
     try:
         dbconn = sqlite3.connect(config.PATH_TO_USER_DB)
         dbquery = dbconn.cursor()
-        dbquery.execute("INSERT INTO users VALUES(?,?)", (USERNAME,PASSWORD))
+        dbquery.execute("INSERT INTO users VALUES(?,?,?)", (USERNAME,SALT,PASSWORD))
         dbconn.commit()
         dbconn.close()
         print("Created new user", USERNAME)
@@ -102,7 +108,7 @@ def create_database():
     try:
         dbconn = sqlite3.connect(config.PATH_TO_USER_DB)
         dbquery = dbconn.cursor()
-        dbquery.execute("CREATE TABLE users (name TEXT NOT NULL UNIQUE, pass BLOB NOT NULL, PRIMARY KEY(name))")
+        dbquery.execute("CREATE TABLE users (name TEXT NOT NULL UNIQUE, salt TEXT NOT NULL, pass BLOB NOT NULL, PRIMARY KEY(name))")
         dbconn.commit()
         dbconn.close()
     except sqlite3.Error as error:

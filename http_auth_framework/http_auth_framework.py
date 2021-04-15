@@ -5,6 +5,7 @@
 ##########################################################
 #
 #  Filename:  http_auth_framework.py
+#  Version:  041521
 #  By:  Matthew Evans
 #       https://www.wtfsystems.net/
 #
@@ -51,22 +52,35 @@ class http_auth:
     #  @ return True if valid credentials, false if not
     ##########################################################
     def validate_credentials(self, usernm, passwd):
-        #  Hash the passed password
+        #  Get the user's salt
+        try:
+            dbconn = sqlite3.connect(self.PATH_TO_USER_DB)
+            dbquery = dbconn.cursor()
+            dbquery.execute('SELECT salt FROM users WHERE name=?', (usernm,))
+            dbres = dbquery.fetchone()
+            dbconn.close()
+        except: return False
+
+        try:
+            for dbsalt in dbres: SALT = dbsalt
+        except: return False
+
+        #  Hash the passed password and retrieved salt
         k = pyDes.des(b'DESCRYPT',
                       pyDes.CBC,
                       self.DES_KEY,
                       pad=self.DES_PAD,
                       padmode=self.DES_PADMODE)
-        passwd = k.encrypt(passwd)
+        passwd = k.encrypt(passwd + SALT)
 
-        #  Find the stored credentials in the user db
+        #  Find the stored password in the user db
         try:
             dbconn = sqlite3.connect(self.PATH_TO_USER_DB)
             dbquery = dbconn.cursor()
             dbquery.execute('SELECT pass FROM users WHERE name=?', (usernm,))
             dbres = dbquery.fetchone()
             dbconn.close()
-        except sqlite3.Error as error: return False
+        except: return False
 
         #  User does not exist
         if dbres == None: return False
@@ -176,13 +190,26 @@ class http_auth:
     ##########################################################
     def change_password(self, usernm, oldpasswd, newpasswd):
         if self.validate_credentials(usernm, oldpasswd) == True:
+            #  Get the user's salt
+            try:
+                dbconn = sqlite3.connect(self.PATH_TO_USER_DB)
+                dbquery = dbconn.cursor()
+                dbquery.execute('SELECT salt FROM users WHERE name=?', (usernm,))
+                dbres = dbquery.fetchone()
+                dbconn.close()
+            except: return False
+
+            try:
+                for dbsalt in dbres: SALT = dbsalt
+            except: return False
+
             #  Encrypt new passwd
             k = pyDes.des(b'DESCRYPT',
                           pyDes.CBC,
                           self.DES_KEY,
                           pad=self.DES_PAD,
                           padmode=self.DES_PADMODE)
-            new_passwd = k.encrypt(newpasswd)
+            new_passwd = k.encrypt(newpasswd + SALT)
 
             #  Write new passwd
             try:
@@ -191,7 +218,6 @@ class http_auth:
                 dbquery.execute('UPDATE users SET pass=? WHERE name=?', (new_passwd, usernm))
                 dbconn.commit()
                 dbconn.close()
-            except sqlite3.Error as error:
-                return False
+            except: return False
             return True
         return False
