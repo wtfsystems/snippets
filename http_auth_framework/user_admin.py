@@ -117,53 +117,54 @@ def create_database():
 ##########################################################
 #  Main program
 ##########################################################
-parser = argparse.ArgumentParser(description="User admin.")
-parser.add_argument(
-    "--new_db", dest="new_db", default=False,
-    action="store_true", help="Create new user database file"
-)
-parser.add_argument(
-    "--list", dest="list_users", default=False,
-    action="store_true", help="List users in the database"
-)
-parser.add_argument(
-    "-n", "--new", dest="new_user", default=False,
-    action="store_true", help="Add a new user to the database"
-)
-parser.add_argument(
-    "-d", "--delete", dest="delete_user", default=False,
-    action="store_true", help="Delete a user from the database"
-)
-parser.add_argument("username", nargs='?', type=str, default=None, help="Username")
-parser.add_argument("password", nargs='?', type=str, default=None, help="Password")
-args = parser.parse_args()
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description="User admin.")
+    parser.add_argument(
+        "--new_db", dest="new_db", default=False,
+        action="store_true", help="Create new user database file"
+    )
+    parser.add_argument(
+        "--list", dest="list_users", default=False,
+        action="store_true", help="List users in the database"
+    )
+    parser.add_argument(
+        "-n", "--new", dest="new_user", default=False,
+        action="store_true", help="Add a new user to the database"
+    )
+    parser.add_argument(
+        "-d", "--delete", dest="delete_user", default=False,
+        action="store_true", help="Delete a user from the database"
+    )
+    parser.add_argument("username", nargs='?', type=str, default=None, help="Username")
+    parser.add_argument("password", nargs='?', type=str, default=None, help="Password")
+    args = parser.parse_args()
 
-#  Create a new database
-if args.new_db:
-    create_database()
-#  List users
-elif args.list_users:
-    list_users()
-#  Create a new user
-elif args.new_user:
-    if args.username == None:
-        username = input("Enter a username: ")
+    #  Create a new database
+    if args.new_db:
+        create_database()
+    #  List users
+    elif args.list_users:
+        list_users()
+    #  Create a new user
+    elif args.new_user:
+        if args.username == None:
+            username = input("Enter a username: ")
+        else:
+            username = args.username
+        if args.password == None:
+            password = input("Enter a Password: ")
+        else:
+            password = args.password
+        new_user(username, password)
+    #  Delete a user
+    elif args.delete_user:
+        if args.username == None:
+            username = input("Enter a username: ")
+        else:
+            username = args.username
+        delete_user(username)
     else:
-        username = args.username
-    if args.password == None:
-        password = input("Enter a Password: ")
-    else:
-        password = args.password
-    new_user(username, password)
-#  Delete a user
-elif args.delete_user:
-    if args.username == None:
-        username = input("Enter a username: ")
-    else:
-        username = args.username
-    delete_user(username)
-else:
-    print("Please choose an option or --help for a list of commands.")
+        print("Please choose an option or --help for a list of commands.")
 
-print("Done!")
-print()
+    print("Done!")
+    print()
