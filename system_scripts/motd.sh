@@ -64,4 +64,4 @@ fi
 ##################################################
 #  Set environment variables
 ##################################################
-export PKG_CONFIG_PATH=/usr/local/share/pkgconfig
+source "$HOME/.config/system_scripts/envvars"
