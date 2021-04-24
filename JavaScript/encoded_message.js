@@ -29,24 +29,24 @@
  */
 
 function encoded_message(ENCODED_TEXT, options) {
-    var options = options || {};
+    var options = options || {}
 
-    var canvas = document.getElementById(options.canvas_name || "message_canvas");
-    var ctx = canvas.getContext("2d");
+    var canvas = document.getElementById(options.canvas_name || "message_canvas")
+    var ctx = canvas.getContext("2d")
 
-    canvas.width = options.canvas_width || 200;
-    canvas.height = options.canvas_height || 32;
+    canvas.width = options.canvas_width || 200
+    canvas.height = options.canvas_height || 32
 
-    ctx.fillStyle = options.backgrounnd_color || "#808080";
-    ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+    ctx.fillStyle = options.backgrounnd_color || "#808080"
+    ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height)
 
-    ctx.font = (options.font_size || "16px") + " " + (options.font_face || "Arial");
-    ctx.fillStyle = options.font_color || "#191970";
-    ctx.textBaseline = options.text_baseline || "middle"; 
-    ctx.textAlign = options.text_align || "center"; 
+    ctx.font = (options.font_size || "16px") + " " + (options.font_face || "Arial")
+    ctx.fillStyle = options.font_color || "#191970"
+    ctx.textBaseline = options.text_baseline || "middle"
+    ctx.textAlign = options.text_align || "center" 
 
     /* Draw the encoded text */
-    ctx.fillText(String.fromCharCode(...ENCODED_TEXT), ctx.canvas.width / 2, ctx.canvas.height / 2);
+    ctx.fillText(String.fromCharCode(...ENCODED_TEXT), ctx.canvas.width / 2, ctx.canvas.height / 2)
 }
 
 /*
@@ -60,7 +60,7 @@ function encoded_message(ENCODED_TEXT, options) {
  *       encoded_message(
  *          [ 0x63, 0x6f, 0x6e, 0x74, 0x61, 0x63, 0x74, 0x40, 0x77, 0x74, 0x66, 0x73, 0x79, 0x73, 0x74, 0x65, 0x6d, 0x73, 0x2e, 0x6e, 0x65, 0x74 ],
  *          { canvas_width: 240, canvas_height: 48 }
- *       );
+ *       )
  *    </script>
  * </body>
  *
