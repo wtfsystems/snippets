@@ -106,8 +106,8 @@ for ITEM in "${BACKUP_LIST[@]}"; do
     #  Saftey check for folder
     if [ -d "$BACKUP_ROOT_LOCATION/$ITEM" ]; then
         #  Check if old log exists and remove
-        if [ -e "$BACKUP_CONFIG_LOCATION/$ITEM.log" ]; then
-            rm "$BACKUP_CONFIG_LOCATION/$ITEM.log"
+        if [ -e "$BACKUP_CONFIG_LOCATION/logs/$ITEM.log" ]; then
+            rm "$BACKUP_CONFIG_LOCATION/logs/$ITEM.log"
         fi
         #  Start rclone process &
         rclone --log-file="$BACKUP_CONFIG_LOCATION/logs/$ITEM.log" --log-level "$LOGGING_LEVEL" --skip-links --ask-password=false --password-command "$RCLONE_PASSWORD_COMMAND" sync "$BACKUP_ROOT_LOCATION/$ITEM" "$BACKUP_NAME:$ITEM" &
